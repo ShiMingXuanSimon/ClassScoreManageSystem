@@ -1,0 +1,2 @@
+# ClassScoreManageSystem
+在班级一体机上安装这个软件，用积分和学习小组激励同学们上进
