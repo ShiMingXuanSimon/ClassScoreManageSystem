@@ -11,13 +11,11 @@
 
 代码不全是我写的，但另一位（他是我同学）没有Github账号。部分代码由AI编写。
 
-## 更新计划：
- - 添加设置功能，设置班级人数、密码等
- - 开发手机端、服务器端（可能今年9月也不能出来）
+## 注意：
+- 本软件仅支持单机使用，所以作者会在2025年8月1日停止支持，转而开发ClassScoreManageSystem2。
+- 最后的更新：0.1.3 支持每星期自动更新积分变化和排名变化（需手动设置renew.exe自启动）
 
-*********
-
-#### 默认密码*3076670390551234*目前唯一修改方式是修改代码并重新编译
+## 默认密码*3076670390551234*目前唯一修改方式是修改代码并重新编译
 
 编译命令 ` g++ main.cpp -o main.exe ` 
 
@@ -38,12 +36,10 @@ I hope that those who use this project abide by the GPL license.
 
 The code is not all written by me, but the other person (he is my classmate) doesn't have a Github account. Part of the code is written by AI.
 
-## Update plan:
- - Add setting, such as the number of students in a class and the password.
- - Develop the mobile app and server side (maybe not until September this year or even later).
+## Attention
+This software can only be used for one device. So we will stop supporting it on August 1st, 2025 and switch to developing ClassScoreManageSystem2.
+The latest update: Version 0.1.3 supports automatic weekly updates of score changes and ranking changes (you need to manually set renew.exe automatical start).
 
-*********
-
-#### Default password*3076670390551234*.The only way to modify it now is to modify the code and recompile.
+## Default password*3076670390551234*.The only way to modify it now is to modify the code and recompile.
 bash ` g++ main.cpp -o main.exe ` 
 
