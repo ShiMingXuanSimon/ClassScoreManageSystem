@@ -1,4 +1,5 @@
 # 班级积分管理系统
+
 在班级的一体机上装上这个软件，利用积分和学习小组来激励同学上进。
 
 目前都是测试版本。0.1.0以前的版本没有记录。因为在那之前我一直是直接修改代码、覆盖编译的。
@@ -11,13 +12,19 @@
 
 代码不全是我写的，但另一位（他是我同学）没有Github账号。部分代码由AI编写。
 
-## 注意：
-- 本软件仅支持单机使用，所以作者会在2025年8月1日停止支持，转而开发ClassScoreManageSystem2。
-- 最后的更新：0.1.3 支持每星期自动更新积分变化和排名变化（需手动设置renew.exe自启动）
+## 注意
 
-## 默认密码*3076670390551234*目前唯一修改方式是修改代码并重新编译
+本软件仅支持单机使用。由于作者后续要将这个控制台应用改为服务器端并开发客户端，作者会在2025年8月1日停止支持这个项目，转而基于它开发ClassPointsManagementSystem。
 
-编译命令 ` g++ main.cpp -o main.exe ` 
+## 更新日志
+
+### 0.2.0
+ - 更人性的输出，使用户更能理解该做什么
+ - 将密码默认值改为12345，而不是之前的一长串
+ - 打破了只能添加49个学生的限制
+ - 每星期自动归零积分变化和排名变化，取代原来的手动归零
+ - 添加设置，可以设置密码和“变化归零操作”频率
+将在2025/7/15或7/16发布
 
 *********
 *********
@@ -30,16 +37,22 @@ Currently, they are all test versions. There are no records for versions before 
 
 The scoring code for study groups is specially made into a separate file to facilitate each class to modify the code according to the characteristics of their own school and class.
 
-The code uses some Windows-specific commands, so it cannot be used on other OS. I bet that no school computers will use MacOS. 
+The code uses some Windows-specific commands, so it cannot be used on other OS. I bet that no school computers will use MacOS or Linux. 
 
 I hope that those who use this project abide by the GPL license. 
 
-The code is not all written by me, but the other person (he is my classmate) doesn't have a Github account. Part of the code is written by AI.
+The code is not all written by me, but the other person (he is my classmate) doesn't have a Github account. Some part of the code is written by AI.
 
 ## Attention
-This software can only be used for one device. So we will stop supporting it on August 1st, 2025 and switch to developing ClassScoreManageSystem2.
-The latest update: Version 0.1.3 supports automatic weekly updates of score changes and ranking changes (you need to manually set renew.exe automatical start).
 
-## Default password*3076670390551234*.The only way to modify it now is to modify the code and recompile.
-bash ` g++ main.cpp -o main.exe ` 
+This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side development, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead.
 
+## Changelog  
+
+### 0.2.0  
+- More user-friendly output to help users better understand what to do better
+- Changed the default password to "12345" instead of the previous long string  
+- Removed the 49-student limit  
+- Automatically reset point changes and rank changes weekly, replacing the previous manual reset  
+- Added settings to configure the password and the frequency of the "reset changes" operation
+Release will be scheduled on July 15 or 16, 2025
