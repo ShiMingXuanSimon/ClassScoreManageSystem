@@ -14,7 +14,7 @@
 
 ## 注意
 
-本软件仅支持单机使用。由于作者后续要将这个控制台应用改为服务器端并开发客户端，作者会在2025年8月1日停止支持这个项目，转而基于它开发ClassPointsManagementSystem。
+本软件仅支持单机使用。由于作者后续要将这个控制台应用改为服务器端并开发客户端，作者会在2025年8月1日停止支持这个项目，转而基于它开发ClassPointsManagementSystem（顺便修改一下名称的翻译错误）。
 
 ## 更新日志
 
@@ -45,7 +45,7 @@ The code is not all written by me, but the other person (he is my classmate) doe
 
 ## Attention
 
-This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side development, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead.
+This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side development, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead. (By the way, I fixed the translation error of the name)
 
 ## Changelog  
 
