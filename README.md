@@ -24,7 +24,6 @@
  - 打破了只能添加49个学生的限制
  - 每星期自动归零积分变化和排名变化，取代原来的手动归零
  - 添加设置，可以设置密码和“变化归零操作”频率
-将在2025/7/15或7/16发布
 
 *********
 *********
@@ -55,4 +54,3 @@ This software only supports stand-alone use. Due to the author's subsequent movi
 - Removed the 49-student limit  
 - Automatically reset point changes and rank changes weekly, replacing the previous manual reset  
 - Added settings to configure the password and the frequency of the "reset changes" operation
-Release will be scheduled on July 15 or 16, 2025
