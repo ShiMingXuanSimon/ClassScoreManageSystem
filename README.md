@@ -44,7 +44,7 @@ The code is not all written by me, but the other person (he is my classmate) doe
 
 ## Attention
 
-This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side development, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead. (By the way, I fixed the translation error of the name)
+This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side app, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead. (By the way, I fixed the translation error of the name)
 
 ## Changelog  
 
