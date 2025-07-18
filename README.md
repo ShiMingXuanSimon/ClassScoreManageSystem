@@ -14,7 +14,7 @@
 
 ## 注意
 
-本软件仅支持单机使用。由于作者后续要将这个控制台应用改为服务器端并开发客户端，作者会在2025年8月1日停止支持这个项目，转而基于它开发ClassPointsManagementSystem（顺便修改一下名称的翻译错误）。
+本软件仅支持单机使用。由于作者后续要将这个控制台应用改为服务器端并开发客户端，作者会在2025年8月1日停止支持这个项目，转而基于它开发[ClassPointsManagementSystem](https://github.com/ShiMingXuanSimon/ClassPointsManagementSystem) （顺便修改一下名称的翻译错误）。
 
 ## 更新日志
 
@@ -36,21 +36,21 @@ Currently, they are all test versions. There are no records for versions before 
 
 The scoring code for study groups is specially made into a separate file to facilitate each class to modify the code according to the characteristics of their own school and class.
 
-The code uses some Windows-specific commands, so it cannot be used on other OS. I bet that no school computers will use MacOS or Linux. 
+The code uses some Windows commands, so it cannot be used on other OS. I bet that no school computers will use MacOS or Linux. 
 
 I hope that those who use this project abide by the GPL license. 
 
-The code is not all written by me, but the other person (he is my classmate) doesn't have a Github account. Some part of the code is written by AI.
+The code is not all written by me, but the other person (he is my classmate) doesn't have a Github account. Some part of the code is written by AI. Some of the words in this file are translated by AI. 
 
 ## Attention
 
-This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side app, the author will stop supporting the project on August 1, 2025 and develop a ClassPointsManagement System based on it instead. (By the way, I fixed the translation error of the name)
+This software only supports stand-alone use. Due to the author's subsequent moving it to sever-side and devenloping client-side app, the author will stop supporting the repository on August 1, 2025 and develop [ClassPointsManagementSystem](https://github.com/ShiMingXuanSimon/ClassPointsManagementSystem) based on it instead. (By the way, I fixed the translation error of the name)
 
 ## Changelog  
 
 ### 0.2.0  
-- More user-friendly output to help users better understand what to do better
+- More user-friendly output to help users understand what to do better
 - Changed the default password to "12345" instead of the previous long string  
 - Removed the 49-student limit  
 - Automatically reset point changes and rank changes weekly, replacing the previous manual reset  
-- Added settings to configure the password and the frequency of the "reset changes" operation
+- Added settings to change the password and the frequency of "reset point changes and rank changes"
