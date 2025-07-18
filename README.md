@@ -1,3 +1,5 @@
+<img src="CSMS_icon.png" alt="icon" width="350" height="350">
+
 # 班级积分管理系统
 
 在班级的一体机上装上这个软件，利用积分和学习小组来激励同学上进。
