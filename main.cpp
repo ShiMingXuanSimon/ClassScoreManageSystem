@@ -8,8 +8,16 @@
 #include <sstream>
 #include <map>
 #include <cstdint>
+#include <ctime>
+#include <windows.h>
 
 using namespace std;
+
+// è®¾ç½®æ§åˆ¶å°ç¼–ç ä¸ºä¸­æ–‡GBK
+void setConsoleEncoding() {
+    SetConsoleOutputCP(936);  // GBKç¼–ç 
+    SetConsoleCP(936);        // è¾“å…¥ä¹Ÿä½¿ç”¨GBK
+}
 
 struct Student {
     int id;
@@ -24,15 +32,14 @@ struct Rule {
     int delta;
 };
 
-vector<Student> students;  // Ê¹ÓÃ vector ´æ´¢Ñ§ÉúĞÅÏ¢
+vector<Student> students;
 vector<Rule> rules;
 
-// ÎÄ¼ş²Ù×÷º¯Êı -----------------------------------------------------------
-
+// æ–‡ä»¶æ“ä½œå‡½æ•°
 void load_students() {
     ifstream fin("students.dat");
     if (!fin) {
-        cout << "Î´ÕÒµ½Ñ§ÉúÊı¾İÎÄ¼ş£¬½«×Ô¶¯´´½¨¸ÃÎÄ¼ş" << endl;
+        cout << "æœªæ‰¾åˆ°å­¦ç”Ÿæ•°æ®æ–‡ä»¶ï¼Œå°†è‡ªåŠ¨åˆ›å»ºè¯¥æ–‡ä»¶" << endl;
         return;
     }
 
@@ -40,7 +47,7 @@ void load_students() {
     while (getline(fin, line)) {
         size_t pos1 = line.find('|');
         if (pos1 == string::npos) {
-            cout << "Êı¾İ¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "æ•°æ®æ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
 
@@ -50,35 +57,35 @@ void load_students() {
 
         size_t pos2 = line.find('|', pos1 + 1);
         if (pos2 == string::npos) {
-            cout << "ĞÕÃû×Ö¶Î¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "å§“åå­—æ®µæ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         student.name = line.substr(pos1 + 1, pos2 - pos1 - 1);
 
         size_t pos3 = line.find('|', pos2 + 1);
         if (pos3 == string::npos) {
-            cout << "ĞÔ±ğ×Ö¶Î¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "æ€§åˆ«å­—æ®µæ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         student.gender = line.substr(pos2 + 1, pos3 - pos2 - 1);
 
         size_t pos4 = line.find('|', pos3 + 1);
         if (pos4 == string::npos || pos4 + 1 > line.length()) {
-            cout << "¾É»ı·Ö×Ö¶Î¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "æ—§ç§¯åˆ†å­—æ®µæ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         student.old_score = stoll(line.substr(pos3 + 1, pos4 - pos3 - 1));
 
         size_t pos5 = line.find('|', pos4 + 1);
         if (pos5 == string::npos || pos5 + 1 > line.length()) {
-            cout << "»ı·Ö×Ö¶Î¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "ç§¯åˆ†å­—æ®µæ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         student.score = stoll(line.substr(pos4 + 1, pos5 - pos4 - 1));
 
         size_t pos6 = line.find('|', pos5 + 1);
         if (pos6 == string::npos || pos6 + 1 > line.length()) {
-            cout << "¾ÉÅÅÃû×Ö¶Î¸ñÊ½´íÎó£¬Çë¼ì²é£º" << line << "ĞĞ" << endl;
+            cout << "æ—§æ’åå­—æ®µæ ¼å¼é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         student.old_rank = stoi(line.substr(pos5 + 1, pos6 - pos5 - 1));
@@ -106,7 +113,7 @@ void save_students() {
 void load_rules() {
     ifstream fin("rules.dat");
     if (!fin) {
-        cout << "Î´ÕÒµ½¹æÔòÎÄ¼ş£¬½«×Ô¶¯´´½¨¸ÃÎÄ¼ş" << endl;
+        cout << "æœªæ‰¾åˆ°è§„åˆ™æ–‡ä»¶ï¼Œå°†è‡ªåŠ¨åˆ›å»ºè¯¥æ–‡ä»¶" << endl;
         return;
     }
 
@@ -114,7 +121,7 @@ void load_rules() {
     while (getline(fin, line)) {
         size_t pos = line.find_last_of('|');
         if (pos == string::npos || pos + 1 >= line.length()) {
-            cout << "ÎŞĞ§¹æÔò¸ñÊ½£º" << line << "ĞĞ" << endl;
+            cout << "æ— æ•ˆè§„åˆ™æ ¼å¼ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         Rule r;
@@ -122,7 +129,7 @@ void load_rules() {
         try {
             r.delta = stoi(line.substr(pos + 1));
         } catch (...) {
-            cout << "·ÖÖµ×ª»»´íÎó£º" << line << "ĞĞ" << endl;
+            cout << "åˆ†å€¼è½¬æ¢é”™è¯¯ï¼š" << line << "è¡Œ" << endl;
             continue;
         }
         rules.push_back(r);
@@ -139,22 +146,22 @@ void save_rules() {
 }
 
 map<string, string> loadConfig(string filename) {
-    map<string, string> config;  // ´´½¨Ò»¸ö¿ÕµÄ×Öµä£¬ÓÃÀ´´æ¼üÖµ¶Ô
+    map<string, string> config;
 
-    ifstream file(filename);     // ³¢ÊÔ´ò¿ªÎÄ¼ş
-    if (file.is_open()) {        // Èç¹ûÎÄ¼ş´æÔÚÇÒÄÜ´ò¿ª
-        string line;             // ÓÃÀ´´æÃ¿Ò»ĞĞµÄÄÚÈİ
-        while (getline(file, line)) {  // ÖğĞĞ¶ÁÈ¡ÎÄ¼ş
-            size_t pos = line.find('=');  // ÕÒµ½µÈºÅµÄÎ»ÖÃ
-            if (pos != string::npos) {    // Èç¹ûÕâĞĞÓĞµÈºÅ
-                string key = line.substr(0, pos);    // µÈºÅ×ó±ßÊÇ¼ü£¨Èçusername£©
-                string value = line.substr(pos + 1); // µÈºÅÓÒ±ßÊÇÖµ£¨ÈçAlice£©
-                config[key] = value;      // ´æÈë×Öµä
+    ifstream file(filename);
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            size_t pos = line.find('=');
+            if (pos != string::npos) {
+                string key = line.substr(0, pos);
+                string value = line.substr(pos + 1);
+                config[key] = value;
             }
         }
-        file.close();  // ¹Ø±ÕÎÄ¼ş
+        file.close();
     }
-    return config;     // ·µ»Ø¼ÓÔØºÃµÄ×Öµä
+    return config;
 }
 
 uint64_t hash_password(const string& str) {
@@ -165,10 +172,9 @@ uint64_t hash_password(const string& str) {
     return hash;
 }
 
-// ºËĞÄ¹¦ÄÜº¯Êı -----------------------------------------------------------
-
+// æ ¸å¿ƒåŠŸèƒ½å‡½æ•°
 bool verify_password(uint64_t stored_hash) {
-    cout << "ÇëÊäÈëÃÜÂë£º";
+    cout << "è¯·è¾“å…¥å¯†ç ï¼š";
     string input;
     getline(cin, input);
     system("cls");
@@ -176,31 +182,31 @@ bool verify_password(uint64_t stored_hash) {
 }
 
 void show_rules() {
-    cout << "\nµ±Ç°¹æÔòÁĞ±í£º" << endl;
+    cout << "\nå½“å‰è§„åˆ™åˆ—è¡¨ï¼š" << endl;
     for (size_t i = 0; i < rules.size(); i++) {
         cout << i + 1 << ". " << rules[i].desc
              << " (" << (rules[i].delta > 0 ? "+" : "")
-             << rules[i].delta << "·Ö)" << endl;
+             << rules[i].delta << "åˆ†)" << endl;
     }
 }
 
 void add_rule() {
     Rule new_rule;
-    cout << "ÇëÊäÈë¹æÔòÃèÊö£º";
+    cout << "è¯·è¾“å…¥è§„åˆ™æè¿°ï¼š";
     getline(cin, new_rule.desc);
 
-    cout << "ÇëÊäÈë¹æÔò·ÖÖµ£¨¼õ·ÖÇë¼Ó¸ººÅ£©£º";
+    cout << "è¯·è¾“å…¥è§„åˆ™åˆ†å€¼ï¼ˆå‡åˆ†è¯·åŠ è´Ÿå·ï¼‰ï¼š";
     string delta_str;
     getline(cin, delta_str);
     try {
         new_rule.delta = stoi(delta_str);
     } catch (...) {
-        cout << "ÎŞĞ§µÄ·ÖÖµÊäÈë£¡" << endl;
+        cout << "æ— æ•ˆçš„åˆ†å€¼è¾“å…¥ï¼" << endl;
         return;
     }
 
     rules.push_back(new_rule);
-    cout << "¹æÔòÌí¼Ó³É¹¦£¡" << endl;
+    cout << "è§„åˆ™æ·»åŠ æˆåŠŸï¼" << endl;
 }
 
 void show_ranking() {
@@ -214,8 +220,8 @@ void show_ranking() {
         return a->id < b->id;
     });
 
-    cout << "»ı·ÖÅÅĞĞ°ñ" << endl;
-    cout << "ÅÅÃû\tÑ§ºÅ\tĞÕÃû\tĞÔ±ğ\t»ı·Ö\tÅÅÃû±ä¶¯\t»ı·Ö±ä¶¯" << endl;
+    cout << "ç§¯åˆ†æ’è¡Œæ¦œ" << endl;
+    cout << "æ’å\tå­¦å·\tå§“å\tæ€§åˆ«\tç§¯åˆ†\tæ’åå˜åŠ¨\tç§¯åˆ†å˜åŠ¨" << endl;
     int rank = 1;
     for (size_t i = 0; i < sorted.size(); i++) {
         if (i > 0 && sorted[i]->score != sorted[i - 1]->score) {
@@ -226,11 +232,11 @@ void show_ranking() {
 
         cout << rank << "\t"
              << sorted[i]->id << "\t"
-             << (sorted[i]->name.empty() ? "Î´µÇ¼Ç" : sorted[i]->name) << "\t"
-             << (sorted[i]->gender.empty() ? "Î´Öª" : sorted[i]->gender) << "\t"
+             << (sorted[i]->name.empty() ? "æœªç™»è®°" : sorted[i]->name) << "\t"
+             << (sorted[i]->gender.empty() ? "æœªçŸ¥" : sorted[i]->gender) << "\t"
              << sorted[i]->score << "\t"
-             << (rank_change > 0 ? "+" : "") << rank_change << "Ãû\t"
-             << (score_change >= 0 ? "+" : "") << score_change << "·Ö" << endl;
+             << (rank_change > 0 ? "+" : "") << rank_change << "å\t"
+             << (score_change >= 0 ? "+" : "") << score_change << "åˆ†" << endl;
     }
     save_students();
 }
@@ -246,35 +252,35 @@ void show_students() {
         return a->id < b->id;
     });
 
-    cout << "Ñ§ºÅ\tĞÕÃû\tĞÔ±ğ" << endl;
+    cout << "å­¦å·\tå§“å\tæ€§åˆ«" << endl;
     for (const auto& studentPtr : sorted) {
         cout << studentPtr->id << "\t"
-             << (studentPtr->name.empty() ? "Î´µÇ¼Ç" : studentPtr->name) << "\t"
-             << (studentPtr->gender.empty() ? "Î´Öª" : studentPtr->gender) << "\t" << endl;
+             << (studentPtr->name.empty() ? "æœªç™»è®°" : studentPtr->name) << "\t"
+             << (studentPtr->gender.empty() ? "æœªçŸ¥" : studentPtr->gender) << "\t" << endl;
     }
     save_students();
 }
 
 void togetherapply_rule() {
     if (rules.empty()) {
-        cout << "µ±Ç°Ã»ÓĞ¹æÔò£¡" << endl;
+        cout << "å½“å‰æ²¡æœ‰è§„åˆ™ï¼" << endl;
         return;
     }
 
     int rule_num;
-    cout << "ÇëÑ¡ÔñÒªÓ¦ÓÃµÄ¹æÔòºÅ£º";
+    cout << "è¯·é€‰æ‹©è¦åº”ç”¨çš„è§„åˆ™å·ï¼š";
     cin >> rule_num;
     cin.ignore();
 
     if (rule_num < 1 || rule_num > static_cast<int>(rules.size())) {
-        cout << "ÎŞĞ§µÄ¹æÔòºÅ£¡" << endl;
+        cout << "æ— æ•ˆçš„è§„åˆ™å·ï¼" << endl;
         return;
     }
 
     int stu_id;
     while (true) {
-        cout << "\n[Ñ§ºÅ]. ĞŞ¸Ä»ı·Ö \n0. ·µ»Ø\nÇëÑ¡Ôñ";
-        cout << "ÇëÊäÈëÑ§ÉúÑ§ºÅ£º";
+        cout << "\n[å­¦å·]. ä¿®æ”¹ç§¯åˆ† \n0. è¿”å›\nè¯·é€‰æ‹©";
+        cout << "è¯·è¾“å…¥å­¦ç”Ÿå­¦å·ï¼š";
         cin >> stu_id;
         cin.ignore();
 
@@ -285,34 +291,34 @@ void togetherapply_rule() {
         });
 
         if (it == students.end()) {
-            cout << "ÎŞĞ§µÄÑ§ºÅ£¡" << endl;
+            cout << "æ— æ•ˆçš„å­¦å·ï¼" << endl;
             continue;
         }
 
         it->score += rules[rule_num - 1].delta;
-        cout << "ĞŞ¸Ä³É¹¦£¬µ±Ç°»ı·Ö£º" << it->score;
+        cout << "ä¿®æ”¹æˆåŠŸï¼Œå½“å‰ç§¯åˆ†ï¼š" << it->score;
         show_students();
     }
 }
 
 void apply_rule() {
     if (rules.empty()) {
-        cout << "µ±Ç°Ã»ÓĞ¹æÔò£¡" << endl;
+        cout << "å½“å‰æ²¡æœ‰è§„åˆ™ï¼" << endl;
         return;
     }
 
     int rule_num;
-    cout << "ÇëÑ¡ÔñÒªÓ¦ÓÃµÄ¹æÔòºÅ£º";
+    cout << "è¯·é€‰æ‹©è¦åº”ç”¨çš„è§„åˆ™å·ï¼š";
     cin >> rule_num;
     cin.ignore();
 
     if (rule_num < 1 || rule_num > static_cast<int>(rules.size())) {
-        cout << "ÎŞĞ§µÄ¹æÔòºÅ£¡" << endl;
+        cout << "æ— æ•ˆçš„è§„åˆ™å·ï¼" << endl;
         return;
     }
 
     int stu_id;
-    cout << "ÇëÊäÈëÑ§ÉúÑ§ºÅ£º";
+    cout << "è¯·è¾“å…¥å­¦ç”Ÿå­¦å·ï¼š";
     cin >> stu_id;
     cin.ignore();
 
@@ -321,17 +327,17 @@ void apply_rule() {
     });
 
     if (it == students.end()) {
-        cout << "ÎŞĞ§µÄÑ§ºÅ£¡" << endl;
+        cout << "æ— æ•ˆçš„å­¦å·ï¼" << endl;
         return;
     }
 
     it->score += rules[rule_num - 1].delta;
-    cout << "ĞŞ¸Ä³É¹¦£¬µ±Ç°»ı·Ö£º" << it->score;
+    cout << "ä¿®æ”¹æˆåŠŸï¼Œå½“å‰ç§¯åˆ†ï¼š" << it->score;
 }
 
 void modify_student() {
     int id;
-    cout << "ÇëÊäÈëÑ§ºÅ£º";
+    cout << "è¯·è¾“å…¥å­¦å·ï¼š";
     cin >> id;
     cin.ignore();
 
@@ -340,43 +346,43 @@ void modify_student() {
     });
 
     if (it == students.end()) {
-        cout << "ÎŞĞ§Ñ§ºÅ£¡" << endl;
+        cout << "æ— æ•ˆå­¦å·ï¼" << endl;
         return;
     }
 
-    cout << "µ±Ç°ĞÅÏ¢£º\n"
-         << "ĞÕÃû£º" << (it->name.empty() ? "Î´µÇ¼Ç" : it->name) << "\n"
-         << "ĞÔ±ğ£º" << (it->gender.empty() ? "Î´Öª" : it->gender) << "\n"
-         << "»ı·Ö£º" << it->score << endl;
+    cout << "å½“å‰ä¿¡æ¯ï¼š\n"
+         << "å§“åï¼š" << (it->name.empty() ? "æœªç™»è®°" : it->name) << "\n"
+         << "æ€§åˆ«ï¼š" << (it->gender.empty() ? "æœªçŸ¥" : it->gender) << "\n"
+         << "ç§¯åˆ†ï¼š" << it->score << endl;
 
-    cout << "ÇëÊäÈëĞÂĞÕÃû£¨Ö±½Ó»Ø³µ±£ÁôÔ­ĞÕÃû£©£º";
+    cout << "è¯·è¾“å…¥æ–°å§“åï¼ˆç›´æ¥å›è½¦ä¿ç•™åŸå§“åï¼‰ï¼š";
     string name;
     getline(cin, name);
     if (!name.empty()) it->name = name;
 
-    cout << "ÇëÊäÈëĞÂĞÔ±ğ£¨Ö±½Ó»Ø³µ±£ÁôÔ­ĞÔ±ğ£©£º";
+    cout << "è¯·è¾“å…¥æ–°æ€§åˆ«ï¼ˆç›´æ¥å›è½¦ä¿ç•™åŸæ€§åˆ«ï¼‰ï¼š";
     string gender;
     getline(cin, gender);
     if (!gender.empty()) it->gender = gender;
 
-    cout << "ÇëÊäÈëĞÂ»ı·Ö£¨Ö±½Ó»Ø³µ±£ÁôÔ­»ı·Ö£©£º";
+    cout << "è¯·è¾“å…¥æ–°ç§¯åˆ†ï¼ˆç›´æ¥å›è½¦ä¿ç•™åŸç§¯åˆ†ï¼‰ï¼š";
     string score_str;
     getline(cin, score_str);
     if (!score_str.empty()) {
         try {
             it->score = stoll(score_str);
         } catch (...) {
-            cout << "ÎŞĞ§µÄ»ı·ÖÊäÈë£¡" << endl;
+            cout << "æ— æ•ˆçš„ç§¯åˆ†è¾“å…¥ï¼" << endl;
         }
     }
 
-    cout << "ĞÅÏ¢ĞŞ¸Ä³É¹¦£¡" << endl;
+    cout << "ä¿¡æ¯ä¿®æ”¹æˆåŠŸï¼" << endl;
 }
 
 void apply_group_scores() {
     ifstream infile("group_scores.txt");
     if (!infile) {
-        cout << "Î´ÕÒµ½Ğ¡×é¼Ó·ÖÎÄ¼ş£¬ÇëÉú³ÉĞ¡×é¼Ó·ÖÎÄ¼ş" << endl;
+        cout << "æœªæ‰¾åˆ°å°ç»„åŠ åˆ†æ–‡ä»¶ï¼Œè¯·ç”Ÿæˆå°ç»„åŠ åˆ†æ–‡ä»¶" << endl;
         return;
     }
 
@@ -385,12 +391,12 @@ void apply_group_scores() {
     vector<int> add_scores;
 
     while (getline(infile, line)) {
-        if (line.find("Ã¿ÈË¼Ó·Ö:") != string::npos) {
+        if (line.find("æ¯äººåŠ åˆ†:") != string::npos) {
             size_t pos = line.find(":");
             int add_score = stoi(line.substr(pos + 1));
 
             if (getline(infile, line)) {
-                if (line.find("³ÉÔ±Ñ§ºÅ:") != string::npos) {
+                if (line.find("æˆå‘˜å­¦å·:") != string::npos) {
                     size_t start = line.find(":") + 1;
                     string ids_str = line.substr(start);
                     stringstream ss(ids_str);
@@ -414,24 +420,71 @@ void apply_group_scores() {
 
         if (it != students.end()) {
             it->score += add_scores[i];
-            cout << "Ñ§ºÅ" << id << "(" << it->name
-                 << ") Ôö¼Ó»ı·Ö: " << add_scores[i]
-                 << " ĞÂ»ı·Ö: " << it->score << endl;
+            cout << "å­¦å·" << id << "(" << it->name
+                 << ") å¢åŠ ç§¯åˆ†: " << add_scores[i]
+                 << " æ–°ç§¯åˆ†: " << it->score << endl;
         }
     }
 
     save_students();
-    cout << "Ğ¡×é¼Ó·Ö³É¹¦Ìí¼Ó£¡" << endl;
+    cout << "å°ç»„åŠ åˆ†æˆåŠŸæ·»åŠ ï¼" << endl;
 }
 
+int renew_score_and_rank() {
+    load_students();
+    time_t nowtime;
+    time(&nowtime);
+    if (!students.empty()) {
+        cout << "å¼€å§‹æ›´æ–°æ—§åˆ†æ•°..." << endl;
+        for (auto& student : students) {
+            student.old_score = student.score;
+        }
+        cout << "å¼€å§‹æ›´æ–°æ—§æ’å..." << endl;
+        for (auto& student : students) {
+            student.old_rank = student.rank;
+        }
+        cout << "æ›´æ–°å®Œæˆ" << endl;
+    }
+    
+    ofstream fout("lastrenew.dat");
+    fout << nowtime;
+    fout.close();
+    
+    return 0;
+}
 
-//Ö÷³ÌĞò-----------------------------------------------------------
+int auto_renew_score_and_rank() {
+    int renewtime = 604800; // é»˜è®¤7å¤©
+    map<string, string> config = loadConfig("config.ini");
+    if (config.count("renewtime")) {
+        try {
+            renewtime = stoi(config["renewtime"]);
+        } catch (...) {}
+    }
 
+    time_t nowtime;
+    time(&nowtime);
+    time_t lasttime = 0;
+    
+    ifstream inFile("lastrenew.dat");
+    if (inFile) inFile >> lasttime;
+    inFile.close();
+    
+    if (nowtime - lasttime >= renewtime) {
+        renew_score_and_rank();
+    }
+    
+    return 0;
+}
+
+// ä¸»ç¨‹åº
 int main() {
+    setConsoleEncoding(); // è®¾ç½®æ§åˆ¶å°ç¼–ç 
+    
     load_students();
     load_rules();
     
-    system ("renew.exe");
+    auto_renew_score_and_rank();
     
     map<string, string> config = loadConfig("config.ini");
 
@@ -440,46 +493,45 @@ int main() {
         try {
             password_hash = stoull(config["password"]);
         } catch (...) {
-            password_hash = hash_password("12345"); // Ä¬ÈÏÃÜÂë
+            password_hash = hash_password("12345"); // é»˜è®¤å¯†ç 
         }
     } else {
-        password_hash = hash_password("12345"); // Ä¬ÈÏÃÜÂë
+        password_hash = hash_password("12345"); // é»˜è®¤å¯†ç 
     }
     
-    cout << "\n===== °à¼¶»ı·Ö¹ÜÀíÏµÍ³ =====" << endl;
+    cout << "\n===== ç­çº§ç§¯åˆ†ç®¡ç†ç³»ç»Ÿ =====" << endl;
 
     while (true) {
         show_ranking();
         show_rules();
-        cout << "\n1. ¹ÜÀí¹æÔò\n2. Ó¦ÓÃ¹æÔò\n3. ĞŞ¸ÄÑ§ÉúĞÅÏ¢\n4. ÊÖ¶¯¹éÁã±ä»¯Öµ£¨Ã¿ĞÇÆÚ»á×Ô¶¯Ò»´Î£©\n5. Ğ¡×é¼Ó·Ö\n6.ÉèÖÃ\n7. ±£´æÍË³ö\nÇëÍ¨¹ı¼üÅÌÑ¡Ôñ²Ù×÷£º" << endl ;
+        cout << "\n1. ç®¡ç†è§„åˆ™\n2. åº”ç”¨è§„åˆ™\n3. ä¿®æ”¹å­¦ç”Ÿä¿¡æ¯\n4. æ‰‹åŠ¨å½’é›¶å˜åŒ–å€¼\n5. å°ç»„åŠ åˆ†\n6. è®¾ç½®\n7. ä¿å­˜é€€å‡º\nè¯·é€šè¿‡é”®ç›˜é€‰æ‹©æ“ä½œï¼š" << endl;
         int choice;
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) {
             case 1: {
-                // ´«µİÃÜÂë¹şÏ£²ÎÊı
                 if (!verify_password(password_hash)) {
-                    cout << "ÃÜÂë´íÎó£¡" << endl;
+                    cout << "å¯†ç é”™è¯¯ï¼" << endl;
                     break;
                 }
                 while (true) {
-                    cout << "\n1. Ìí¼Ó¹æÔò\n2. É¾³ı¹æÔò\n3. ·µ»Ø\nÇëÑ¡Ôñ£º";
+                    cout << "\n1. æ·»åŠ è§„åˆ™\n2. åˆ é™¤è§„åˆ™\n3. è¿”å›\nè¯·é€‰æ‹©ï¼š";
                     int sub_choice;
                     cin >> sub_choice;
                     cin.ignore();
                     if (sub_choice == 1) add_rule();
                     else if (sub_choice == 2) {
                         show_rules();
-                        cout << "ÇëÊäÈëÒªÉ¾³ıµÄ¹æÔòºÅ£º";
+                        cout << "è¯·è¾“å…¥è¦åˆ é™¤çš„è§„åˆ™å·ï¼š";
                         int num;
                         cin >> num;
                         cin.ignore();
                         if (num >= 1 && num <= static_cast<int>(rules.size())) {
                             rules.erase(rules.begin() + num - 1);
-                            cout << "É¾³ı³É¹¦£¡" << endl;
+                            cout << "åˆ é™¤æˆåŠŸï¼" << endl;
                         } else {
-                            cout << "ÎŞĞ§µÄ±àºÅ£¡" << endl;
+                            cout << "æ— æ•ˆçš„ç¼–å·ï¼" << endl;
                         }
                     } else break;
                 }
@@ -488,15 +540,14 @@ int main() {
             }
 
             case 2: {
-                // ´«µİÃÜÂë¹şÏ£²ÎÊı
                 if (!verify_password(password_hash)) {
-                    cout << "ÃÜÂë´íÎó£¡" << endl;
+                    cout << "å¯†ç é”™è¯¯ï¼" << endl;
                     break;
                 }
                 show_students();
                 show_rules();
                 while (true) {
-                    cout << "\n1. µ¥¸öĞŞ¸Ä\n2. ÅúÁ¿ĞŞ¸Ä\n3. ·µ»Ø\nÇëÑ¡Ôñ£º";
+                    cout << "\n1. å•ä¸ªä¿®æ”¹\n2. æ‰¹é‡ä¿®æ”¹\n3. è¿”å›\nè¯·é€‰æ‹©ï¼š";
                     int sub_choice;
                     cin >> sub_choice;
                     cin.ignore();
@@ -511,14 +562,13 @@ int main() {
             }
 
             case 3: {
-                // ´«µİÃÜÂë¹şÏ£²ÎÊı
                 if (!verify_password(password_hash)) {
-                    cout << "ÃÜÂë´íÎó£¡" << endl;
+                    cout << "å¯†ç é”™è¯¯ï¼" << endl;
                     break;
                 }
                 modify_student();
                 while (true) {
-                    cout << "\n1. ¼ÌĞøĞŞ¸Ä\n2. ·µ»Ø\nÇëÑ¡Ôñ£º";
+                    cout << "\n1. ç»§ç»­ä¿®æ”¹\n2. è¿”å›\nè¯·é€‰æ‹©ï¼š";
                     int sub_choice;
                     cin >> sub_choice;
                     cin.ignore();
@@ -529,25 +579,22 @@ int main() {
             }
 
             case 4: {
-                system ("renew.exe");
+                renew_score_and_rank();
                 break;
             }
 
             case 5: {
-                // ´«µİÃÜÂë¹şÏ£²ÎÊı
                 if (!verify_password(password_hash)) {
-                    cout << "ÃÜÂë´íÎó£¡" << endl;
+                    cout << "å¯†ç é”™è¯¯ï¼" << endl;
                     break;
                 }
 
-                // µ÷ÓÃĞ¡×é¼Ó·Ö¼ÆËã³ÌĞò
                 system("calculate_group_score.exe");
 
-                // ¼ì²éĞ¡×é¼Ó·ÖÎÄ¼ş
                 ifstream testfile("group_scores.txt");
                 if (testfile) {
                     testfile.close();
-                    cout << "¼ì²âµ½Ğ¡×é¼Ó·Ö£¬ÊÇ·ñÓ¦ÓÃ¼Ó·Ö£¿(1=ÊÇ, 0=·ñ): ";
+                    cout << "æ£€æµ‹åˆ°å°ç»„åŠ åˆ†ï¼Œæ˜¯å¦åº”ç”¨åŠ åˆ†ï¼Ÿ(1=æ˜¯, 0=å¦): ";
                     int apply_choice;
                     cin >> apply_choice;
                     cin.ignore();
@@ -555,47 +602,46 @@ int main() {
                     if (apply_choice == 1) {
                         apply_group_scores();
                     } else {
-                        cout << "È¡Ïû¼Ó·Ö²Ù×÷" << endl;
+                        cout << "å–æ¶ˆåŠ åˆ†æ“ä½œ" << endl;
                     }
                 } else {
-                    cout << "Î´ÕÒµ½Ğ¡×é¼Ó·ÖÎÄ¼ş" << endl;
+                    cout << "æœªæ‰¾åˆ°å°ç»„åŠ åˆ†æ–‡ä»¶" << endl;
                 }
                 break;
             }
             
             case 6: {
-                // ´«µİÃÜÂë¹şÏ£²ÎÊı
                 if (!verify_password(password_hash)) {
-                    cout << "ÃÜÂë´íÎó£¡" << endl;
+                    cout << "å¯†ç é”™è¯¯ï¼" << endl;
                     break;
                 }
 
                 while (true) {
-                    cout << "\n1. ÉèÖÃÃÜÂë\n2. ÉèÖÃ±ä»¯Öµ¹éÁãÆµÂÊ\n3. ·µ»Ø\nÇëÑ¡Ôñ£º";
+                    cout << "\n1. è®¾ç½®å¯†ç \n2. è®¾ç½®å˜åŒ–å€¼å½’é›¶é¢‘ç‡\n3. è¿”å›\nè¯·é€‰æ‹©ï¼š";
                     int sub_choice;
                     cin >> sub_choice;
                     cin.ignore();
                     if (sub_choice == 1) {
-                        cout << "ÊäÈëĞÂÃÜÂë: ";
+                        cout << "è¾“å…¥æ–°å¯†ç : ";
                         string new_pass;
                         getline(cin, new_pass);
-                        password_hash = hash_password(new_pass); // ¸üĞÂ¹şÏ£Öµ
-                        ofstream file("config.ini" , ios::app);
-                        file << "password=" << password_hash << "\n"; // ´æ´¢¹şÏ£
+                        password_hash = hash_password(new_pass);
+                        ofstream file("config.ini", ios::app);
+                        file << "password=" << password_hash << "\n";
                         file.close();
-                        cout << "ÃÜÂëÒÑ¸üĞÂ£¡" << endl;
+                        cout << "å¯†ç å·²æ›´æ–°ï¼" << endl;
                     }
                     else if (sub_choice == 2) {
-                        cout << "ÊäÈëĞÂ¹éÁãÆµÂÊ£¨µ¥Î»£ºÌì¡£ÇëÊäÈë´¿Êı×Ö£©: " << endl ;
+                        cout << "è¾“å…¥æ–°å½’é›¶é¢‘ç‡ï¼ˆå•ä½ï¼šå¤©ã€‚è¯·è¾“å…¥çº¯æ•°å­—ï¼‰: ";
                         string new_time_day_str;
                         getline(cin, new_time_day_str);
-                        int new_time_num = stoi(new_time_day_str) * 86400 ;
-                        string new_time = to_string(new_time_num) ;
-                        ofstream file("config.ini" , ios::app);
+                        int new_time_num = stoi(new_time_day_str) * 86400;
+                        string new_time = to_string(new_time_num);
+                        ofstream file("config.ini", ios::app);
                         file << "renewtime=" << new_time << "\n"; 
                         file.close();
-                        cout << "ÃÜÂëÒÑ¸üĞÂ£¡" << endl;						 
-					}
+                        cout << "å½’é›¶é¢‘ç‡å·²æ›´æ–°ï¼" << endl;						 
+                    }
                     else break;
                 }
                 break;
@@ -604,12 +650,12 @@ int main() {
             case 7: {
                 save_students();
                 save_rules();
-                cout << "Êı¾İÒÑ±£´æ£¬¸ĞĞ»Ê¹ÓÃ£¡" << endl;
+                cout << "æ•°æ®å·²ä¿å­˜ï¼Œæ„Ÿè°¢ä½¿ç”¨ï¼" << endl;
                 return 0;
             }
 
             default: {
-                cout << "ÎŞĞ§µÄÑ¡Ôñ£¡" << endl;
+                cout << "æ— æ•ˆçš„é€‰æ‹©ï¼" << endl;
                 break;
             }
         }
