@@ -431,9 +431,6 @@ void apply_group_scores() {
 }
 
 void renew_score_and_rank() {
-    load_students();
-    time_t nowtime;
-    time(&nowtime);
     if (!students.empty()) {
         cout << "开始更新旧分数..." << endl;
         for (auto& student : students) {
@@ -445,15 +442,9 @@ void renew_score_and_rank() {
         }
         cout << "更新完成" << endl;
     }
-    
-    ofstream fout("lastrenew.dat");
-    fout << nowtime;
-    fout.close();
-    
-    return 0;
 }
 
-int auto_renew_score_and_rank() {
+void auto_renew_score_and_rank() {
     int renewtime = 604800; // 默认7天
     map<string, string> config = loadConfig("config.ini");
     if (config.count("renewtime")) {
@@ -473,8 +464,6 @@ int auto_renew_score_and_rank() {
     if (nowtime - lasttime >= renewtime) {
         renew_score_and_rank();
     }
-    
-    return 0;
 }
 
 // 主程序
@@ -499,12 +488,12 @@ int main() {
         password_hash = hash_password("12345"); // 默认密码
     }
     
-    cout << "\n===== 班级积分管理系统 =====" << endl;
+    cout << "\n====== 班级积分管理系统 ======" << endl;
 
     while (true) {
         show_ranking();
         show_rules();
-        cout << "\n1. 管理规则\n2. 应用规则\n3. 修改学生信息\n4. 手动归零变化值\n5. 小组加分\n6. 设置\n7. 保存退出\n请通过键盘选择操作：" << endl;
+        cout << "\n1. 管理规则\n2. 修改积分\n3. 修改学生信息\n4. 手动归零变化值\n5. 小组加分\n6. 设置\n7. 保存退出\n请通过键盘选择操作" << endl;
         int choice;
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -594,19 +583,9 @@ int main() {
                 ifstream testfile("group_scores.txt");
                 if (testfile) {
                     testfile.close();
-                    cout << "检测到小组加分，是否应用加分？(1=是, 0=否): ";
-                    int apply_choice;
-                    cin >> apply_choice;
-                    cin.ignore();
-
-                    if (apply_choice == 1) {
-                        apply_group_scores();
-                    } else {
-                        cout << "取消加分操作" << endl;
+                    apply_group_scores();
                     }
-                } else {
-                    cout << "未找到小组加分文件" << endl;
-                }
+                else cout << "未找到计算小组分数后生成的数据文件文件，无法加分" << endl;
                 break;
             }
             

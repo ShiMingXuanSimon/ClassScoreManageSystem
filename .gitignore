@@ -1,0 +1,24 @@
+# 编译产生的文件
+*.exe
+*.o
+*.out
+*.a
+
+# 构建目录
+build/
+Debug/
+Release/
+
+# 编辑器文件
+.vscode/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 配置
+config.ini
+
+# 数据
+*.dat
+!lastrenew.dat
