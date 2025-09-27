@@ -430,7 +430,7 @@ void apply_group_scores() {
     cout << "小组加分成功添加！" << endl;
 }
 
-int renew_score_and_rank() {
+void renew_score_and_rank() {
     load_students();
     time_t nowtime;
     time(&nowtime);
