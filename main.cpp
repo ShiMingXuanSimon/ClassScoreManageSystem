@@ -1,3 +1,21 @@
+/*
+    班级积分管理系统。在班级一体机上安装这个软件，用积分和学习小组激励同学们上进。Class Points Management System. Install this software on the computer in the classroom. Then use points and study groups to motivate students. 
+    Copyright (C) 2025  ShiMingXuanSimon
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <vector>

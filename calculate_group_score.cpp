@@ -1,22 +1,40 @@
+/*
+    ç­çº§ç§¯åˆ†ç®¡ç†ç³»ç»Ÿã€‚åœ¨ç­çº§ä¸€ä½“æœºä¸Šå®‰è£…è¿™ä¸ªè½¯ä»¶ï¼Œç”¨ç§¯åˆ†å’Œå­¦ä¹ å°ç»„æ¿€åŠ±åŒå­¦ä»¬ä¸Šè¿›ã€‚Class Points Management System. Install this software on the computer in the classroom. Then use points and study groups to motivate students. 
+    Copyright (C) 2025  ShiMingXuanSimon
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <limits>
-#include <fstream> // Ìí¼ÓÎÄ¼ş²Ù×÷Ö§³Ö
-#include <cmath>   // Ìí¼ÓÊıÑ§º¯ÊıÖ§³Ö
+#include <fstream> // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
+#include <cmath>   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
 
 using namespace std;
 
-const int REWARD[] = {3, 4, 5, 8, 15}; // ¶Î0¡ú1µ½4¡ú5µÄ½±Àø
+const int REWARD[] = {3, 4, 5, 8, 15}; // ï¿½ï¿½0ï¿½ï¿½1ï¿½ï¿½4ï¿½ï¿½5ï¿½Ä½ï¿½ï¿½ï¿½
 
-// ¶ÎÎ»ÅĞ¶Ïº¯Êı
+// ï¿½ï¿½Î»ï¿½Ğ¶Ïºï¿½ï¿½ï¿½
 int getSegment(int rank) {
-    if (rank > 1500) return 0;       // ¶Î0£º1501Ãû¼°Ö®ºó
-    else if (rank > 1000) return 1;  // ¶Î1£º1001-1500Ãû£¨°üº¬1500£©
-    else if (rank > 800) return 2;   // ¶Î2£º801-1000Ãû
-    else if (rank > 500) return 3;   // ¶Î3£º501-800Ãû
-    else if (rank > 200) return 4;   // ¶Î4£º201-500Ãû
-    else return 5;                   // ¶Î5£ºÇ°200Ãû
+    if (rank > 1500) return 0;       // ï¿½ï¿½0ï¿½ï¿½1501ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½
+    else if (rank > 1000) return 1;  // ï¿½ï¿½1ï¿½ï¿½1001-1500ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1500ï¿½ï¿½
+    else if (rank > 800) return 2;   // ï¿½ï¿½2ï¿½ï¿½801-1000ï¿½ï¿½
+    else if (rank > 500) return 3;   // ï¿½ï¿½3ï¿½ï¿½501-800ï¿½ï¿½
+    else if (rank > 200) return 4;   // ï¿½ï¿½4ï¿½ï¿½201-500ï¿½ï¿½
+    else return 5;                   // ï¿½ï¿½5ï¿½ï¿½Ç°200ï¿½ï¿½
 }
 
 int calculateCoreScore(int new_rank) {
@@ -44,31 +62,31 @@ double calculateLeapScore(int old_rank, int new_rank) {
 
 struct Group {
     int n;
-    vector<int> student_ids; // ´æ´¢Ñ§ÉúÑ§ºÅ
+    vector<int> student_ids; // ï¿½æ´¢Ñ§ï¿½ï¿½Ñ§ï¿½ï¿½
     vector<int> old_ranks, new_ranks;
     vector<double> scores;
     double core_raw, combat_raw, leap_raw;
     double core_score, combat_score, leap_score, total_score;
 };
 
-// ±£´æĞ¡×éµÃ·Ö½á¹ûµ½ÎÄ¼ş
+// ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½Ã·Ö½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 void saveGroupScores(const vector<Group>& groups, const string& filename) {
     ofstream outfile(filename);
     if (!outfile) {
-        cerr << "ÎŞ·¨´ò¿ªÎÄ¼ş±£´æĞ¡×éµÃ·Ö£¡" << endl;
+        cerr << "ï¿½Ş·ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½Ã·Ö£ï¿½" << endl;
         return;
     }
     
     for (int g = 0; g < groups.size(); ++g) {
-        // ¼ÆËãÃ¿¸öĞ¡×é³ÉÔ±µÄ¼Ó·ÖÖµ£¨×Ü·Ö³ıÒÔ3ÏòÉÏÈ¡Õû£©
+        // ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Ô±ï¿½Ä¼Ó·ï¿½Öµï¿½ï¿½ï¿½Ü·Ö³ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
         int add_score = static_cast<int>(ceil(groups[g].total_score / 3.0));
         
-        // Ğ´ÈëĞ¡×éĞÅÏ¢
-        outfile << "Ğ¡×é" << g+1 << "×Ü·Ö:" << groups[g].total_score 
-                << ", Ã¿ÈË¼Ó·Ö:" << add_score << "\n";
+        // Ğ´ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½Ï¢
+        outfile << "Ğ¡ï¿½ï¿½" << g+1 << "ï¿½Ü·ï¿½:" << groups[g].total_score 
+                << ", Ã¿ï¿½Ë¼Ó·ï¿½:" << add_score << "\n";
         
-        // Ğ´ÈëĞ¡×é³ÉÔ±Ñ§ºÅ
-        outfile << "³ÉÔ±Ñ§ºÅ:";
+        // Ğ´ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Ô±Ñ§ï¿½ï¿½
+        outfile << "ï¿½ï¿½Ô±Ñ§ï¿½ï¿½:";
         for (int id : groups[g].student_ids) {
             outfile << id << " ";
         }
@@ -80,9 +98,9 @@ void saveGroupScores(const vector<Group>& groups, const string& filename) {
 int main() {
     while(true) {
         int grade_1000th, group_count;
-        cout << "ÇëÊäÈëÄê¼¶µÚ1000ÃûµÄ·ÖÊı£º";
+        cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê¼¶ï¿½ï¿½1000ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½";
         cin >> grade_1000th;
-        cout << "ÇëÊäÈëĞ¡×éÊıÁ¿£º";
+        cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
         cin >> group_count;
 
         vector<Group> groups(group_count);
@@ -90,15 +108,15 @@ int main() {
 
         for (int g = 0; g < group_count; ++g) {
             Group &grp = groups[g];
-            cout << "ÇëÊäÈëĞ¡×é" << g+1 << "µÄÈËÊı£º";
+            cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½" << g+1 << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
             cin >> grp.n;
 
-            grp.student_ids.resize(grp.n); // ³õÊ¼»¯Ñ§ºÅÏòÁ¿
+            grp.student_ids.resize(grp.n); // ï¿½ï¿½Ê¼ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             grp.old_ranks.resize(grp.n);
             grp.new_ranks.resize(grp.n);
             grp.scores.resize(grp.n);
 
-            cout << "ÇëÊäÈëÃ¿¸ö³ÉÔ±µÄÑ§ºÅ ¾ÉÅÅÃû ĞÂÅÅÃû ·ÖÊı£¨¿Õ¸ñ·Ö¸ô£©£º\n";
+            cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ñ§ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½\n";
             for (int i = 0; i < grp.n; ++i) {
                 cin >> grp.student_ids[i] 
                     >> grp.old_ranks[i] 
@@ -106,26 +124,26 @@ int main() {
                     >> grp.scores[i];
             }
 
-            // ºËĞÄ½ø²½·Ö¼ÆËã
+            // ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
             grp.core_raw = 0;
             for (int rank : grp.new_ranks) {
                 grp.core_raw += calculateCoreScore(rank);
             }
 
-            // Õ½¶·Á¦·Ö¼ÆËã
+            // Õ½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
             double sum_score = 0;
             for (double s : grp.scores) sum_score += s;
             grp.combat_raw = (sum_score / grp.n - grade_1000th) * grp.n;
             combat_raww.push_back(grp.combat_raw);
 
-            // ·ÉÔ¾½±Àø·Ö¼ÆËã
+            // ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
             grp.leap_raw = 0;
             for (int i = 0; i < grp.n; ++i) {
                 grp.leap_raw += calculateLeapScore(grp.old_ranks[i], grp.new_ranks[i]);
             }
         }
 
-        // Õ½¶·Á¦·ÖÕÛËã
+        // Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         double max_combat = *max_element(combat_raww.begin(), combat_raww.end());
         if (max_combat > 0) {
             for (auto &grp : groups) {
@@ -143,24 +161,24 @@ int main() {
             }
         }
 
-        // Êä³ö½á¹û
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         for (int g = 0; g < group_count; ++g) {
-            cout << "\nĞ¡×é" << g+1 << "µÃ·ÖÏêÇé£º" << endl;
-            cout << "×ÜµÃ·Ö£º" << groups[g].total_score << endl;
-            cout << "ºËĞÄ½ø²½·Ö£º" << groups[g].core_score << endl;
-            cout << "Õ½¶·Á¦·Ö£º" << groups[g].combat_score << endl;
-            cout << "·ÉÔ¾½±Àø·Ö£º" << groups[g].leap_score << endl;
+            cout << "\nĞ¡ï¿½ï¿½" << g+1 << "ï¿½Ã·ï¿½ï¿½ï¿½ï¿½é£º" << endl;
+            cout << "ï¿½ÜµÃ·Ö£ï¿½" << groups[g].total_score << endl;
+            cout << "ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½" << groups[g].core_score << endl;
+            cout << "Õ½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½" << groups[g].combat_score << endl;
+            cout << "ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½" << groups[g].leap_score << endl;
         }
         
-        cout << "\n°´1È·ÈÏ¼Ó·Ö²¢±£´æ½á¹û£¬ÆäËû°´¼üÖØĞÂ¼ÆËã: ";
+        cout << "\nï¿½ï¿½1È·ï¿½Ï¼Ó·Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½: ";
         int sub_choice;
         cin >> sub_choice;
         cin.ignore();
         
         if (sub_choice == 1) {
-            // ±£´æĞ¡×éµÃ·Ö½á¹û
+            // ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½Ã·Ö½ï¿½ï¿½
             saveGroupScores(groups, "group_scores.txt");
-            cout << "Ğ¡×éµÃ·Ö½á¹ûÒÑ±£´æµ½ group_scores.txt ÎÄ¼ş" << endl;
+            cout << "Ğ¡ï¿½ï¿½Ã·Ö½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½æµ½ group_scores.txt ï¿½Ä¼ï¿½" << endl;
             break;
         } else {
             system("cls");
